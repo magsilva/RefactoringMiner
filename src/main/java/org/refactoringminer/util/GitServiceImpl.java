@@ -44,6 +44,9 @@ import org.slf4j.LoggerFactory;
 public class GitServiceImpl implements GitService {
 
 	private static final String REMOTE_REFS_PREFIX = "refs/remotes/origin/";
+	
+	private static final String LOCAL_REFS_PREFIX = "refs/heads/";
+	
 	Logger logger = LoggerFactory.getLogger(GitServiceImpl.class);
 
 	DefaultCommitsFilter commitsFilter = new DefaultCommitsFilter();
@@ -209,7 +212,7 @@ public class GitServiceImpl implements GitService {
 		List<ObjectId> currentRemoteRefs = new ArrayList<ObjectId>(); 
 		for (Ref ref : repository.getRefDatabase().getRefs()) {
 			String refName = ref.getName();
-			if (refName.startsWith(REMOTE_REFS_PREFIX)) {
+			if (refName.startsWith(REMOTE_REFS_PREFIX) || refName.startsWith(LOCAL_REFS_PREFIX)) {
 				if (branch == null || refName.endsWith("/" + branch)) {
 					currentRemoteRefs.add(ref.getObjectId());
 				}
