@@ -212,9 +212,20 @@ public class GitServiceImpl implements GitService {
 		List<ObjectId> currentRemoteRefs = new ArrayList<ObjectId>(); 
 		for (Ref ref : repository.getRefDatabase().getRefs()) {
 			String refName = ref.getName();
-			if (refName.startsWith(REMOTE_REFS_PREFIX) || refName.startsWith(LOCAL_REFS_PREFIX)) {
+			if (refName.startsWith(REMOTE_REFS_PREFIX)) {
 				if (branch == null || refName.endsWith("/" + branch)) {
 					currentRemoteRefs.add(ref.getObjectId());
+				}
+			}
+		}
+
+		if (currentRemoteRefs.isEmpty()) { 
+			for (Ref ref : repository.getRefDatabase().getRefs()) {
+				String refName = ref.getName();
+				if (refName.startsWith(LOCAL_REFS_PREFIX)) {
+					if (branch == null || refName.endsWith("/" + branch)) {
+						currentRemoteRefs.add(ref.getObjectId());
+					}
 				}
 			}
 		}
