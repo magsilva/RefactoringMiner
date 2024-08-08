@@ -1462,6 +1462,9 @@ public class GitHistoryRefactoringMinerImpl implements GitHistoryRefactoringMine
 	}
 
 	public static String extractCommitURL(String cloneURL, String commitId) {
+		if (cloneURL == null) {
+			return "";
+		}
 		int indexOfDotGit = cloneURL.length();
 		if(cloneURL.endsWith(".git")) {
 			indexOfDotGit = cloneURL.indexOf(".git");
